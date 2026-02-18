@@ -1,28 +1,48 @@
-package br.com.dio.desafio.dominio;
+import br.com.dio.desafio.dominio.Bootcamp;
+import br.com.dio.desafio.dominio.Curso;
+import br.com.dio.desafio.dominio.Dev;
+import br.com.dio.desafio.dominio.Mentoria;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        Curso cursoJava = new Curso();
-        cursoJava.setTitulo("Java");
-        cursoJava.setDescricao("Descricao curso Java");
-        cursoJava.setCargaHoraria(8);
+        Curso curso1 = new Curso("curso java", "descrição curso java", 8);
+        Curso curso2 = new Curso("curso js", "descrição curso js", 4);
+        Mentoria mentoria = new Mentoria("mentoria de java", "descrição mentoria java", LocalDate.now());
 
-        Curso cursoJS = new Curso();
-        cursoJS.setTitulo("Java");
-        cursoJS.setDescricao("Descricao curso Java");
-        cursoJS.setCargaHoraria(8);
+        Bootcamp bootcamp = new Bootcamp();
+        bootcamp.setNome("Bootcamp Java Developer");
+        bootcamp.setDescricao("Descrição Bootcamp Java Developer");
+        bootcamp.getConteudos().addAll(List.of(curso1, curso2, mentoria));
 
-        Mentoria mentoriaJava = new Mentoria();
-        mentoriaJava.setTitulo("Mentoria Java");
-        mentoriaJava.setDescricao("Descricao mentoria Java");
-        mentoriaJava.setData(LocalDate.now());
+        Dev devVanessa = new Dev();
+        devVanessa.setNome("Vanessa");
+        devVanessa.inscreverBootcamp(bootcamp);
 
-        Mentoria mentoriaJS = new Mentoria();
-        mentoriaJS.setTitulo("Mentoria JS");
-        mentoriaJS.setDescricao("Descricao mentoria JS");
-        mentoriaJS.setData(LocalDate.now());
+        processarProgresso(devVanessa, 2);
+
+        System.out.println("-------");
+
+        Dev devJoao = new Dev();
+        devJoao.setNome("Joao");
+        devJoao.inscreverBootcamp(bootcamp);
+
+        processarProgresso(devJoao, 3);
     }
+
+    private static void processarProgresso(Dev dev, int vezes) {
+        System.out.println("Conteúdos Inscritos " + dev.getNome() + ": " + dev.getConteudosInscritos());
+
+        for (int i = 0; i < vezes; i++) {
+            dev.progredir();
+        }
+
+        System.out.println("-");
+        System.out.println("Conteúdos Restantes " + dev.getNome() + ": " + dev.getConteudosInscritos());
+        System.out.println("Conteúdos Concluídos " + dev.getNome() + ": " + dev.getConteudosConcluidos());
+        System.out.println("XP Total: " + dev.calcularTotalXp());
+    }
+
 }
